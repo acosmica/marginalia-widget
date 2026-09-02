@@ -84,8 +84,11 @@
   figure {
     margin: 0;
     flex: none;
+    position: relative;
+    min-height: 156px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     gap: clamp(0.55rem, 1.5vh, 0.95rem);
   }
 
@@ -189,11 +192,13 @@
   /* ---------- the pixel moth ---------- */
   .moth {
     display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     width: auto;
-    height: clamp(88px, 18vw, 150px); /* JS overrides height + negative margin to match the quote */
-    max-width: 36%;
-    flex: none;
-    align-self: flex-end;
+    height: 156px;       /* fixed — does not change with the quote */
+    max-width: 40%;
+    margin: 0;
     overflow: visible;
     animation: moth-bob 3.6s ease-in-out infinite alternate;
   }
@@ -415,19 +420,6 @@
   var greetEl = document.getElementById("greeting");
   var indexEl = document.getElementById("index");
   var btn = document.getElementById("another");
-  var mothEl = document.querySelector(".moth");
-
-  // keep the moth almost as tall as the quote, but let it rise up beside the
-  // quote (negative margin) instead of adding a tall row beneath it
-  function sizeMoth() {
-    var qh = qEl.offsetHeight;
-    if (qh <= 0) return;
-    var mh = Math.round(Math.min(qh * 0.95, 200));
-    var base = aEl.offsetHeight || 22;
-    mothEl.style.height = mh + "px";
-    mothEl.style.marginTop = Math.min(0, -(mh - base)) + "px";
-  }
-  window.addEventListener("resize", sizeMoth);
 
   // continuous day count in the viewer's local time — no yearly reset
   function localDayNumber() {
@@ -458,7 +450,6 @@
     qEl.textContent = q.t;
     aEl.textContent = q.a;
     paintIndex();
-    sizeMoth();
   }
 
   function reveal() {
@@ -494,11 +485,6 @@
   paintGreeting();
   setContent(dailyIndex);
   requestAnimationFrame(reveal);
-
-  // re-measure once the webfont has swapped in (changes the quote's height)
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(sizeMoth);
-  }
 
   // if the widget is left open across midnight, roll to the new day
   window.setInterval(function () {
