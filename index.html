@@ -189,9 +189,11 @@
   /* ---------- the pixel moth ---------- */
   .moth {
     display: block;
-    width: clamp(88px, 11vw, 108px);
-    height: auto;
+    width: auto;
+    height: clamp(96px, 20vw, 168px); /* JS overrides to ~92% of the quote's height */
+    max-width: 42%;
     flex: none;
+    align-self: flex-end;
     overflow: visible;
     animation: moth-bob 3.6s ease-in-out infinite alternate;
   }
@@ -413,6 +415,14 @@
   var greetEl = document.getElementById("greeting");
   var indexEl = document.getElementById("index");
   var btn = document.getElementById("another");
+  var mothEl = document.querySelector(".moth");
+
+  // keep the moth almost as tall as the quote, whatever its line count
+  function sizeMoth() {
+    var h = qEl.offsetHeight;
+    if (h > 0) mothEl.style.height = Math.round(Math.min(h * 0.92, 220)) + "px";
+  }
+  window.addEventListener("resize", sizeMoth);
 
   // continuous day count in the viewer's local time — no yearly reset
   function localDayNumber() {
@@ -443,6 +453,7 @@
     qEl.textContent = q.t;
     aEl.textContent = q.a;
     paintIndex();
+    sizeMoth();
   }
 
   function reveal() {
@@ -478,6 +489,11 @@
   paintGreeting();
   setContent(dailyIndex);
   requestAnimationFrame(reveal);
+
+  // re-measure once the webfont has swapped in (changes the quote's height)
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(sizeMoth);
+  }
 
   // if the widget is left open across midnight, roll to the new day
   window.setInterval(function () {
