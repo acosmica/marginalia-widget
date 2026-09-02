@@ -43,11 +43,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: clamp(1.75rem, 5vh, 3.5rem);
+    justify-content: center;
+    gap: clamp(0.85rem, 2.4vh, 1.5rem);
     width: min(46rem, 100%);
     margin: 0 auto;
-    padding: clamp(1.6rem, 4.5vw, 3.5rem);
+    padding: clamp(1.3rem, 3.6vw, 2.6rem);
   }
 
   /* ---------- top row: greeting + catalog number ---------- */
@@ -83,11 +83,10 @@
   /* ---------- the quote ---------- */
   figure {
     margin: 0;
-    flex: 1;
+    flex: none;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(1.4rem, 3.5vh, 2.4rem);
+    gap: clamp(0.55rem, 1.5vh, 0.95rem);
   }
 
   blockquote {
@@ -97,7 +96,7 @@
     line-height: 1.3;
     letter-spacing: -0.011em;
     text-wrap: balance;
-    max-width: 24ch;
+    max-width: min(24ch, 64%);
     color: var(--offwhite);
   }
   blockquote::before {
@@ -139,13 +138,14 @@
     transition: opacity 0.16s ease, transform 0.16s ease;
   }
 
-  /* author + moth, sitting directly under the quote */
+  /* author on the left; moth on the right, rising up beside the quote */
   .q-meta {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     gap: 1.25rem;
   }
+  .q-meta figcaption { padding-bottom: 0.15rem; }
 
   /* ---------- bottom row: shuffle ---------- */
   .foot {
@@ -190,8 +190,8 @@
   .moth {
     display: block;
     width: auto;
-    height: clamp(96px, 20vw, 168px); /* JS overrides to ~92% of the quote's height */
-    max-width: 42%;
+    height: clamp(88px, 18vw, 150px); /* JS overrides height + negative margin to match the quote */
+    max-width: 36%;
     flex: none;
     align-self: flex-end;
     overflow: visible;
@@ -417,10 +417,15 @@
   var btn = document.getElementById("another");
   var mothEl = document.querySelector(".moth");
 
-  // keep the moth almost as tall as the quote, whatever its line count
+  // keep the moth almost as tall as the quote, but let it rise up beside the
+  // quote (negative margin) instead of adding a tall row beneath it
   function sizeMoth() {
-    var h = qEl.offsetHeight;
-    if (h > 0) mothEl.style.height = Math.round(Math.min(h * 0.92, 220)) + "px";
+    var qh = qEl.offsetHeight;
+    if (qh <= 0) return;
+    var mh = Math.round(Math.min(qh * 0.95, 200));
+    var base = aEl.offsetHeight || 22;
+    mothEl.style.height = mh + "px";
+    mothEl.style.marginTop = Math.min(0, -(mh - base)) + "px";
   }
   window.addEventListener("resize", sizeMoth);
 
