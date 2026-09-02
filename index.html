@@ -139,12 +139,19 @@
     transition: opacity 0.16s ease, transform 0.16s ease;
   }
 
-  /* ---------- bottom row: moth + shuffle ---------- */
-  .foot {
+  /* author + moth, sitting directly under the quote */
+  .q-meta {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 1rem;
+    gap: 1.25rem;
+  }
+
+  /* ---------- bottom row: shuffle ---------- */
+  .foot {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
 
   button.another {
@@ -182,8 +189,9 @@
   /* ---------- the pixel moth ---------- */
   .moth {
     display: block;
-    width: 62px;
+    width: clamp(88px, 11vw, 108px);
     height: auto;
+    flex: none;
     overflow: visible;
     animation: moth-bob 3.6s ease-in-out infinite alternate;
   }
@@ -229,11 +237,9 @@
 
   <figure aria-live="polite">
     <blockquote id="quote" class="anim">&hellip;</blockquote>
-    <figcaption id="author" class="anim">&mdash;</figcaption>
-  </figure>
-
-  <div class="foot">
-    <svg class="moth" viewBox="0 0 24 18" width="62" role="img" aria-label="A small pixel moth" shape-rendering="crispEdges">
+    <div class="q-meta">
+      <figcaption id="author" class="anim">&mdash;</figcaption>
+      <svg class="moth" viewBox="0 0 24 18" width="104" role="img" aria-label="A pixel moth" shape-rendering="crispEdges">
       <!-- left wing -->
       <g class="wing-l">
         <rect class="r-rose" x="8"  y="3"  width="3" height="1" />
@@ -285,8 +291,11 @@
         <rect class="r-shade" x="11" y="9"  width="2" height="1" />
         <rect class="r-shade" x="11" y="11" width="2" height="1" />
       </g>
-    </svg>
+      </svg>
+    </div>
+  </figure>
 
+  <div class="foot">
     <button type="button" class="another" id="another" aria-label="Show another quote">
       <span class="glyph" aria-hidden="true">&#8635;</span>
       <span>Another</span>
