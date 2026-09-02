@@ -4,52 +4,25 @@
 <meta charset="utf-8" />
 <title>Marginalia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="A daily motivational or philosophical quote, with a shuffle for another." />
+<meta name="description" content="A daily motivational or philosophical quote, greeted by a small pixel moth." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 
 <style>
-  /* ---------- tokens: light (bare :root defines the full palette) ---------- */
+  /* ---------- palette: one committed mood, dark cherry rose ---------- */
   :root {
-    --ground:   #E9EAE9;
-    --ink:      #202127;
-    --muted:    #6C6B78;
-    --accent:   #4E5583;
-    --rule:     rgba(32, 33, 39, 0.14);
-    --rule-2:   rgba(32, 33, 39, 0.28);
+    --ground:    #1C0F15;
+    --ground-2:  #27131D;
+    --cherry:    #6E2A3E;
+    --rose:      #A8455E;
+    --rose-soft: #C97A8E;
+    --offwhite:  #F3EDE7;
+    --muted:     #8E6B76;
+    --line:      rgba(200, 122, 142, 0.20);
+    --line-2:    rgba(200, 122, 142, 0.42);
 
-    --quote-size: clamp(1.55rem, 3.3vw + 0.7rem, 3rem);
-  }
-
-  /* system-default (no data-theme stamp): only prefers-color-scheme decides */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ground:  #16161B;
-      --ink:     #E5E3DB;
-      --muted:   #8C8B99;
-      --accent:  #A3A9D4;
-      --rule:    rgba(229, 227, 219, 0.15);
-      --rule-2:  rgba(229, 227, 219, 0.3);
-    }
-  }
-
-  /* explicit toggle wins in both directions */
-  :root[data-theme="dark"] {
-    --ground:  #16161B;
-    --ink:     #E5E3DB;
-    --muted:   #8C8B99;
-    --accent:  #A3A9D4;
-    --rule:    rgba(229, 227, 219, 0.15);
-    --rule-2:  rgba(229, 227, 219, 0.3);
-  }
-  :root[data-theme="light"] {
-    --ground:  #E9EAE9;
-    --ink:     #202127;
-    --muted:   #6C6B78;
-    --accent:  #4E5583;
-    --rule:    rgba(32, 33, 39, 0.14);
-    --rule-2:  rgba(32, 33, 39, 0.28);
+    --quote-size: clamp(1.35rem, 2.8vw + 0.55rem, 2.65rem);
   }
 
   * { box-sizing: border-box; }
@@ -57,8 +30,8 @@
 
   body {
     margin: 0;
-    background: var(--ground);
-    color: var(--ink);
+    background: radial-gradient(125% 85% at 50% 0%, var(--ground-2) 0%, var(--ground) 58%);
+    color: var(--offwhite);
     font-family: "Newsreader", Georgia, "Times New Roman", serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -77,19 +50,35 @@
     padding: clamp(1.6rem, 4.5vw, 3.5rem);
   }
 
-  /* ---------- top eyebrow ---------- */
+  /* ---------- top row: greeting + catalog number ---------- */
   .eyebrow {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 1rem;
+    gap: 1.25rem;
+  }
+
+  .greeting {
+    font-family: "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.98rem, 1.1vw + 0.74rem, 1.18rem);
+    line-height: 1.42;
+    color: var(--rose-soft);
+    text-wrap: pretty;
+  }
+
+  .index {
+    flex: none;
     font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.68rem;
+    font-size: 0.64rem;
+    font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .eyebrow .index { font-variant-numeric: tabular-nums; }
 
   /* ---------- the quote ---------- */
   figure {
@@ -105,17 +94,18 @@
     margin: 0;
     font-size: var(--quote-size);
     font-weight: 400;
-    line-height: 1.28;
+    line-height: 1.3;
     letter-spacing: -0.011em;
     text-wrap: balance;
     max-width: 24ch;
+    color: var(--offwhite);
   }
   blockquote::before {
     content: "\201C";
-    color: var(--accent);
+    color: var(--rose);
     margin-right: 0.06em;
   }
-  blockquote::after { content: "\201D"; color: var(--accent); }
+  blockquote::after { content: "\201D"; color: var(--rose); }
 
   figcaption {
     display: flex;
@@ -126,13 +116,13 @@
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--rose-soft);
   }
   figcaption::before {
     content: "";
     width: clamp(1.5rem, 6vw, 3rem);
     height: 1px;
-    background: var(--rule-2);
+    background: var(--line-2);
     flex: none;
   }
 
@@ -149,11 +139,12 @@
     transition: opacity 0.16s ease, transform 0.16s ease;
   }
 
-  /* ---------- footer control ---------- */
+  /* ---------- bottom row: moth + shuffle ---------- */
   .foot {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
   }
 
   button.another {
@@ -161,7 +152,7 @@
     appearance: none;
     background: transparent;
     color: var(--muted);
-    border: 1px solid var(--rule);
+    border: 1px solid var(--line);
     border-radius: 2px;
     padding: 0.5rem 0.85rem;
     font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -175,9 +166,9 @@
     gap: 0.55rem;
     transition: color 0.18s ease, border-color 0.18s ease;
   }
-  button.another:hover { color: var(--accent); border-color: var(--accent); }
+  button.another:hover { color: var(--rose-soft); border-color: var(--line-2); }
   button.another:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--rose);
     outline-offset: 2px;
   }
   button.another .glyph {
@@ -188,24 +179,51 @@
   }
   button.another:hover .glyph { transform: rotate(-180deg); }
 
+  /* ---------- the pixel moth ---------- */
+  .moth {
+    display: block;
+    width: 62px;
+    height: auto;
+    overflow: visible;
+    animation: moth-bob 3.6s ease-in-out infinite alternate;
+  }
+  .moth .r-rose   { fill: var(--rose); }
+  .moth .r-cherry { fill: var(--cherry); }
+  .moth .r-soft   { fill: var(--rose-soft); }
+  .moth .r-eye    { fill: var(--offwhite); }
+  .moth .r-shade  { fill: var(--ground); opacity: 0.4; }
+
+  .moth .wing-l,
+  .moth .wing-r,
+  .moth .ant-g {
+    transform-box: view-box;
+  }
+  .moth .wing-l { transform-origin: 11px 8px; animation: moth-flap 2.4s ease-in-out infinite alternate; }
+  .moth .wing-r { transform-origin: 13px 8px; animation: moth-flap 2.4s ease-in-out infinite alternate; }
+  .moth .ant-g  { transform-origin: 12px 3px; animation: moth-sway 4.4s ease-in-out infinite alternate; }
+
+  @keyframes moth-bob  { from { transform: translateY(0); }        to { transform: translateY(-3px); } }
+  @keyframes moth-flap { from { transform: scaleX(1); }            to { transform: scaleX(0.55); } }
+  @keyframes moth-sway { from { transform: rotate(-5deg); }        to { transform: rotate(5deg); } }
+
   @media (prefers-reduced-motion: reduce) {
-    .anim, .anim.in, .anim.out {
-      transition: opacity 0.001s linear;
-      transform: none;
-    }
+    .anim, .anim.in, .anim.out { transition: opacity 0.001s linear; transform: none; }
     button.another .glyph, button.another:hover .glyph { transition: none; transform: none; }
+    .moth { animation: none; }
+    .moth .ant-g { animation: none; }
+    .moth .wing-l, .moth .wing-r { animation: none; transform: scaleX(0.82); }
   }
 
-  @media (max-width: 30rem) {
+  @media (max-width: 26rem) {
+    .eyebrow { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
     blockquote { max-width: none; }
-    .eyebrow { font-size: 0.62rem; letter-spacing: 0.12em; }
   }
 </style>
 </head>
 <body>
 <main class="stage">
   <div class="eyebrow">
-    <span class="date" id="date">&mdash;</span>
+    <span class="greeting" id="greeting">&hellip;</span>
     <span class="index" id="index">&mdash;</span>
   </div>
 
@@ -215,6 +233,60 @@
   </figure>
 
   <div class="foot">
+    <svg class="moth" viewBox="0 0 24 18" width="62" role="img" aria-label="A small pixel moth" shape-rendering="crispEdges">
+      <!-- left wing -->
+      <g class="wing-l">
+        <rect class="r-rose" x="8"  y="3"  width="3" height="1" />
+        <rect class="r-rose" x="6"  y="4"  width="5" height="1" />
+        <rect class="r-rose" x="4"  y="5"  width="7" height="1" />
+        <rect class="r-rose" x="3"  y="6"  width="8" height="1" />
+        <rect class="r-rose" x="2"  y="7"  width="9" height="1" />
+        <rect class="r-rose" x="3"  y="8"  width="8" height="1" />
+        <rect class="r-rose" x="4"  y="9"  width="7" height="1" />
+        <rect class="r-rose" x="5"  y="10" width="6" height="1" />
+        <rect class="r-rose" x="6"  y="11" width="5" height="1" />
+        <rect class="r-rose" x="7"  y="12" width="4" height="1" />
+        <rect class="r-rose" x="8"  y="13" width="3" height="1" />
+        <rect class="r-cherry" x="4" y="6" width="2" height="2" />
+        <rect class="r-cherry" x="7" y="8" width="2" height="2" />
+        <rect class="r-soft" x="2" y="7" width="1" height="1" />
+      </g>
+      <!-- right wing -->
+      <g class="wing-r">
+        <rect class="r-rose" x="13" y="3"  width="3" height="1" />
+        <rect class="r-rose" x="13" y="4"  width="5" height="1" />
+        <rect class="r-rose" x="13" y="5"  width="7" height="1" />
+        <rect class="r-rose" x="13" y="6"  width="8" height="1" />
+        <rect class="r-rose" x="13" y="7"  width="9" height="1" />
+        <rect class="r-rose" x="13" y="8"  width="8" height="1" />
+        <rect class="r-rose" x="13" y="9"  width="7" height="1" />
+        <rect class="r-rose" x="13" y="10" width="6" height="1" />
+        <rect class="r-rose" x="13" y="11" width="5" height="1" />
+        <rect class="r-rose" x="13" y="12" width="4" height="1" />
+        <rect class="r-rose" x="13" y="13" width="3" height="1" />
+        <rect class="r-cherry" x="18" y="6" width="2" height="2" />
+        <rect class="r-cherry" x="15" y="8" width="2" height="2" />
+        <rect class="r-soft" x="21" y="7" width="1" height="1" />
+      </g>
+      <!-- antennae -->
+      <g class="ant-g">
+        <rect class="r-soft" x="10" y="2" width="1" height="1" />
+        <rect class="r-soft" x="9"  y="1" width="1" height="1" />
+        <rect class="r-soft" x="8"  y="0" width="1" height="1" />
+        <rect class="r-soft" x="13" y="2" width="1" height="1" />
+        <rect class="r-soft" x="14" y="1" width="1" height="1" />
+        <rect class="r-soft" x="15" y="0" width="1" height="1" />
+      </g>
+      <!-- body -->
+      <g class="body">
+        <rect class="r-cherry" x="11" y="3" width="2" height="11" />
+        <rect class="r-eye" x="10" y="4" width="1" height="1" />
+        <rect class="r-eye" x="13" y="4" width="1" height="1" />
+        <rect class="r-shade" x="11" y="9"  width="2" height="1" />
+        <rect class="r-shade" x="11" y="11" width="2" height="1" />
+      </g>
+    </svg>
+
     <button type="button" class="another" id="another" aria-label="Show another quote">
       <span class="glyph" aria-hidden="true">&#8635;</span>
       <span>Another</span>
@@ -312,9 +384,24 @@
     { t: "The obstacle is the path.", a: "Zen proverb" }
   ];
 
+  var OPENERS = [
+    "hello",
+    "good to see you",
+    "welcome back",
+    "oh, hey",
+    "there you are",
+    "look who it is",
+    "glad you're here",
+    "you made it",
+    "hey, you",
+    "well hello",
+    "back again",
+    "hi there"
+  ];
+
   var qEl = document.getElementById("quote");
   var aEl = document.getElementById("author");
-  var dateEl = document.getElementById("date");
+  var greetEl = document.getElementById("greeting");
   var indexEl = document.getElementById("index");
   var btn = document.getElementById("another");
 
@@ -330,9 +417,14 @@
 
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
 
-  function paintMeta() {
-    var d = new Date();
-    dateEl.textContent = d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  function paintGreeting() {
+    var day = localDayNumber();
+    var opener = OPENERS[((day % OPENERS.length) + OPENERS.length) % OPENERS.length];
+    var dateStr = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+    greetEl.textContent = opener + ", today is " + dateStr + ".";
+  }
+
+  function paintIndex() {
     var marker = current === dailyIndex ? "" : "· ";
     indexEl.textContent = marker + "№ " + pad(current + 1) + " / " + QUOTES.length;
   }
@@ -341,7 +433,7 @@
     var q = QUOTES[i];
     qEl.textContent = q.t;
     aEl.textContent = q.a;
-    paintMeta();
+    paintIndex();
   }
 
   function reveal() {
@@ -374,14 +466,16 @@
   });
 
   // first paint
+  paintGreeting();
   setContent(dailyIndex);
   requestAnimationFrame(reveal);
 
-  // if the widget is left open across midnight, roll to the new day's quote
+  // if the widget is left open across midnight, roll to the new day
   window.setInterval(function () {
     var fresh = ((localDayNumber() % QUOTES.length) + QUOTES.length) % QUOTES.length;
     if (fresh !== dailyIndex) {
       dailyIndex = fresh;
+      paintGreeting();
       swapTo(fresh);
     }
   }, 60000);
